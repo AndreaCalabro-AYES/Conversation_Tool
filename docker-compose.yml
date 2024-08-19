@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  rasa:
+    build:
+      context: .
+      dockerfile: dockerfile.windows
+    network_mode: host
+    volumes:
+      - ./data:/./data
+      - ./models:/./models
+      - ./actions:/./actions
+    # command: rasa shell
+
+  action_server:
+    image: rasa/rasa-sdk:3.5.0
+    volumes:
+      - ./actions:/app/actions
+    network_mode: host

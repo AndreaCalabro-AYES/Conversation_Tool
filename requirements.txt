@@ -1,0 +1,18 @@
+# Rasa core and dependencies
+rasa==3.5.10
+
+# NLTK for sentiment analysis
+nltk==3.8.1
+
+# TensorFlow (2.11.0) required by Rasa
+tensorflow==2.11.0
+
+# TensorFlow Addons (built from source as described)
+# This will need to be installed manually using the built .whl file
+
+# TensorFlow Text (built from source as described)
+# This will need to be installed manually using the built .whl file
+
+# Additional dependencies
+scikit-learn<=1.2 
+scikit-learn>=0.22
