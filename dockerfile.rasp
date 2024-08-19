@@ -1,5 +1,5 @@
-# Use an ARM-compatible Python 3.8 image for Raspberry Pi 4
-FROM arm32v7/python:3.8-slim-buster
+# Use an ARM64-compatible full Python 3.8 image for Raspberry Pi 4
+FROM arm64v8/python:3.8-buster
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -7,9 +7,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies and development headers
 RUN apt-get update && apt-get install -y \
     build-essential \
+    python3-dev \
+    libffi-dev \
     libatlas-base-dev \
     gfortran \
     libhdf5-dev \
@@ -21,10 +23,10 @@ RUN apt-get update && apt-get install -y \
     wget \
     && apt-get clean
 
-# Install TensorFlow 2.2.0 for ARM
-RUN pip install tensorflow==2.2.0
+# Install TensorFlow Lite
+RUN pip install tflite-runtime
 
-# Install Rasa 3.5.10 and other Python dependencies
+# Install Rasa, NLTK, and Scikit-learn
 RUN pip install rasa==3.5.10 \
     nltk==3.8.1 \
     scikit-learn==1.1.3
@@ -32,3 +34,8 @@ RUN pip install rasa==3.5.10 \
 # Copy the application code into the container
 COPY . .
 
+# Expose the port for Rasa
+EXPOSE 5005
+
+# Set the default command to run the Rasa server
+CMD ["rasa", "run", "--enable-api", "--cors", "*"]
