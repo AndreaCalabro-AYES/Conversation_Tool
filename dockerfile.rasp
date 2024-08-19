@@ -33,9 +33,3 @@ RUN pip install rasa==3.5.10 \
 
 # Copy the application code into the container
 COPY . .
-
-# Expose the port for Rasa
-EXPOSE 5005
-
-# Set the default command to run the Rasa server
-CMD ["rasa", "run", "--enable-api", "--cors", "*"]
