@@ -1,24 +1,22 @@
 version: '3.8'
 
 services:
-  rasa:
+  model_converter:
     build:
-      context: .
-      dockerfile: dockerfile.rasp
-    network_mode: host
+      context: .  # The context is the current directory where the Dockerfile is located
+      dockerfile: dockerfile.reduce 
     volumes:
-      - ./data:/./data
-      - ./models:/./models
-      - ./actions:/./actions
-      - ./config.yml:/./config.yml
-      - ./domain.yml:/./domain.yml
-    # First time run this
-    # command: rasa init --no-prompt 
-    # To fine tune run thie
-    # command: rasa train
+      - pytorch_models:/app/pytorch_models  # Volume for the PyTorch models
+      - onnx_models:/app/onnx_models        # Volume for the ONNX models
+      - tflite_models:/app/tflite_models    # Volume for the TensorFlow Lite models
+      - ./convert_model_for_rasp.py:/app/convert_model_for_rasp.py
+    environment:
+      - MODEL_DIR=/app/pytorch_models
+      - ONNX_DIR=/app/onnx_models
+      - TFLITE_DIR=/app/tflite_models
+    command: ["python", "convert_model_for_rasp.py"]
 
-  action_server:
-    image: rasa/rasa-sdk:3.5.0
-    volumes:
-      - ./actions:/app/actions
-    network_mode: host
+volumes:
+  pytorch_models:
+  onnx_models:
+  tflite_models:
