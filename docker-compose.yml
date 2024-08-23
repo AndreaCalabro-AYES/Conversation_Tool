@@ -1,30 +1,17 @@
 version: '3.8'
 
 services:
-  model_compression:
+  combined_analysis:
     build:
-      context: .  # Directory containing Dockerfile and compress_optimize.py
-      dockerfile: dockerfile.compress
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - ./tf_model:/app/tf_model         # Volume to mount the original model
-      - ./tflite_model:/app/tflite_model  # Volume to store the optimized TFLite model
-      - ./compress_optimize.py:/app/compress_optimize.py
-    command: ["python", "compress_optimize.py"]
-
-  # model_testing:
-  #   build:
-  #     context: ./testing  # Directory containing Dockerfile and test_model.py
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./output_model:/app/tflite_models   # Volume to access the optimized TFLite model
-  #     - ./test_files:/app/test_files        # Volume for input, output, and test script modifications
-  #   environment:
-  #     - TEST_INPUT_DIR=/app/test_files
-  #     - MODEL_DIR=/app/tflite_models
-  #   command: ["python", "test_model.py"]
+      - ./input:/app/input
+      - ./output:/app/output
+      - ./sentiment_analysis.py:/app/sentiment_analysis.py
+      - ./test_vader.py:/app/test_vader.py
+    command: ["python", "test_vader.py"]
 
 volumes:
-  tf_model:
-  tflite_models:
-  compress_optimize.py:
-  # test_files:
+  input:
+  output:

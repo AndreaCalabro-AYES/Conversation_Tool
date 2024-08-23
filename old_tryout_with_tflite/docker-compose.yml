@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  model_compression:
+    build:
+      context: .  # Directory containing Dockerfile and compress_optimize.py
+      dockerfile: dockerfile.compress
+    volumes:
+      - ./tf_model:/app/tf_model         # Volume to mount the original model
+      - ./tflite_model:/app/tflite_model  # Volume to store the optimized TFLite model
+      - ./compress_optimize.py:/app/compress_optimize.py  # Mount the script for dynamic changes
+    command: ["python", "compress_optimize.py"]
+
+  full_model_testing:
+    build:
+      context: .  # Directory containing Dockerfile and compress_optimize.py
+      dockerfile: dockerfile.compress
+    volumes:
+      - ./tf_model:/app/tf_model         # Volume to mount the original model
+      # - ./tflite_model:/app/tflite_model  # Volume to store the optimized TFLite model
+      - ./test_fullmodel_interactive.py:/app/test_fullmodel_interactive.py  # Mount the script for dynamic changes
+    command: ["python", "test_fullmodel_interactive.py"]
+
+  lite_model_testing:
+    build:
+      context: .  # Directory containing Dockerfile and test_model.py
+      dockerfile: dockerfile.test  # This is the Dockerfile simulating the 32-bit Raspberry Pi environment
+    volumes:
+      # - ./tflite_model:/app/tflite_model   # Volume to access the optimized TFLite model
+      - ./test_files:/app/test_files        # Volume for input, output, and test script modifications
+      - ./test_model.py:/app/test_model.py  # Mount the test script for dynamic changes
+    command: ["python", "test_model.py"]
+
+volumes:
+  tf_model:
+  tflite_model:
+  test_files:

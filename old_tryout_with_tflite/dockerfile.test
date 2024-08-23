@@ -1,0 +1,20 @@
+# Dockerfile for simulating 32-bit Raspberry Pi environment for testing
+
+# Use arm32v7/python as a base image to simulate Raspberry Pi 32-bit environment
+FROM python:3.8-slim-bullseye
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Install tflite_runtime for 32-bit ARM architecture
+RUN apt-get update && apt-get install -y \
+    libatlas-base-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --no-cache-dir tflite-runtime
+RUN pip install numpy
+
+# Copy the testing script and TFLite model into the container not needed as these are volumes
+COPY /tflite_model/mobilebert_model.tflite /app
+# Command to run the test script
+CMD ["python", "test_model.py"]

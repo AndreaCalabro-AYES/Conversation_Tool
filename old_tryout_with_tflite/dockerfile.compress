@@ -1,0 +1,15 @@
+# Dockerfile for model compression and optimization
+
+# Python image with TensorFlow and necessary tools
+FROM tensorflow/tensorflow:2.11.0
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Install necessary dependencies
+RUN pip install --no-cache-dir tensorflow-model-optimization tflite-runtime
+RUN pip install transformers
+RUN pip install numpy
+
+# Command to run the optimization script
+CMD ["python", "compress_optimize.py"]
