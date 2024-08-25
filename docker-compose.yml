@@ -9,9 +9,12 @@ services:
       - ./input:/app/input
       - ./output:/app/output
       - ./sentiment_analysis.py:/app/sentiment_analysis.py
-      - ./test_vader.py:/app/test_vader.py
+      - ./test_sentiment_analysis:/app/test_sentiment_analysis
+      - ./json_files:/app/json_files
     command: ["python", "test_vader.py"]
 
 volumes:
   input:
   output:
+  test_sentiment_analysis:
+  json_files:

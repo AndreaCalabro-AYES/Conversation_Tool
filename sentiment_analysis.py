@@ -40,29 +40,13 @@ def define_sentiment_class(sentiment_scores, VERY_THD= 0.75):
     
     return sentiment_class
 
-sentence_reaction = {
-    "VeryPositive": ["This is fantastic!", "I'm thrilled too!", "Amazing!"],
-    "Positive": ["This is good!", "I'm happy for you!", "Nice!"],
-    "NeutralPositive": ["Okay, let's start.", "Not bad at all.", "I'm content with this."],
-    "VeryNeutral": ["You are neutral.", "No strong feelings either way.", "Stay calm, you will find the flow."],
-    "NeutralNegative": ["I'm not sure about this.", "It's a bit off.", "You have mixed feelings."],
-    "Negative": ["This isn't great.", "You don't seem happy with this.", "Seems it could be better."],
-    "VeryNegative": ["This is terrible!", "You're really disappointed.", "Awful!"],
-    "Unclear": ["I don't understand.", "This is confusing.", "Can you clarify?"]
-}
-
-def react_based_on_sentiment(sentiment_class):
+def react_based_on_sentiment(sentiment_class, sentence_reaction):
     # Ensure the sentiment class exists in the dictionary
     if sentiment_class in sentence_reaction:
         # Return a random sentence from the list associated with the sentiment class
         sentence = random.choice(sentence_reaction[sentiment_class])
     else:
         # Handle cases where the sentiment class is not found
-        sentence = "I am sorry, I am still young and unexperienced."
+        sentence = "I am sorry, I am still young and unexperienced. Can you repeat your answer?"
 
     return sentence
-
-
-    
-    
-

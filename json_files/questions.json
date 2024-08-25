@@ -1,0 +1,50 @@
+{
+    "how_are_you": [
+        "How are you doing today?",
+        "How is everything going with you?",
+        "How do you feel today?",
+        "What is up? How are you?",
+        "How are things on your end?",
+        "How are you feeling today?",
+        "What is going on? How are you?",
+        "How have you been?",
+        "How is it going?",
+        "How are you holding up?"
+    ],
+    "is_it_ok_to_continue": [
+        "Would it be alright if we continue our conversation?",
+        "Is it okay if we get to know each other a bit more?",
+        "Shall we keep the conversation going?",
+        "Are you up for continuing our chat?",
+        "Would you like to get to know each other better?",
+        "Is it okay to go on with our conversation?",
+        "Shall we keep talking and get to know each other?",
+        "Do you want to continue chatting?",
+        "Is it alright if we keep talking?",
+        "Would you like to keep our conversation going?"
+    ],
+    "what_are_your_hobbies": [
+        "What do you like to do in your free time?",
+        "What are some of your hobbies?",
+        "How do you spend your leisure time?",
+        "What are your favorite activities?",
+        "What do you enjoy doing when you are not working?",
+        "What do you do for fun?",
+        "What keeps you busy in your spare time?",
+        "What hobbies do you have?",
+        "What do you do to relax?",
+        "What do you like to do when you have free time?"
+    ],
+    "what_do_you_do_for_work": [
+        "What do you do for work?",
+        "What is your job?",
+        "What kind of work do you do?",
+        "How do you earn a living?",
+        "What is your profession?",
+        "What do you do for a living?",
+        "What is your occupation?",
+        "What kind of job do you have?",
+        "Where do you work?",
+        "What is your career?"
+    ]
+}
