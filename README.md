@@ -1,7 +1,12 @@
 # Conversation_Tool
 
 ## Overview
-The **Conversation_Tool** is designed to facilitate and manage conversations, providing an intuitive interface for real-time communication analysis. This tool is particularly useful in scenarios where understanding and analyzing dialogue dynamics is critical, such as in customer support, educational environments, or any interactive system requiring dialogue comprehension.
+The **Conversation_Tool** is designed to enable a basic voice interaction with anyone in front of the screen. It is implementing NLP for sentiment analysis, will contain TTS and STT algorithms, and soon a custom model (based on TinyGPT) to have conversation on topics linked to hobbies and work.
+Right now, on windows, you can just run the container service linked to the sentiment analysis using
+   ```bash
+   docker-compose run combined_analysis
+   ```
+To add the connection to the microphone and speakers would require too much overhead, and now is not a priority.
 
 ## Key Features
 - **Real-Time Conversation Management:** Monitor and manage conversations in real-time.
