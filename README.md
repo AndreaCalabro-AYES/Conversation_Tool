@@ -1,10 +1,21 @@
 # Conversation_Tool
-The first AYES chatbot - to light up your days at the office!
 
-To run the model in shell - so to test it on your device
-1. Build the container (docker-compose build)
-2. Run it in shell "docker-compose run --rm rasa /bin/bash"
-3. Inside the shell run "rasa shell"
-4. Enjoy
-5. Use to '/stop' to exit
+## Overview
+The **Conversation_Tool** is designed to facilitate and manage conversations, providing an intuitive interface for real-time communication analysis. This tool is particularly useful in scenarios where understanding and analyzing dialogue dynamics is critical, such as in customer support, educational environments, or any interactive system requiring dialogue comprehension.
 
+## Key Features
+- **Real-Time Conversation Management:** Monitor and manage conversations in real-time.
+- **Analysis Tools:** Built-in analytics for evaluating dialogue flow and participant engagement.
+- **Extensibility:** Easily integrates with other systems for enhanced functionality.
+
+## Setup Instructions
+
+### Prerequisites
+- Ensure you have [Node.js](https://nodejs.org/) installed.
+- You’ll also need npm (usually comes with Node.js).
+
+### Installation
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/AndreaCalabro-AYES/Conversation_Tool.git
+    ```
