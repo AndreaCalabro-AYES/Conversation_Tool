@@ -11,8 +11,7 @@ The **Conversation_Tool** is designed to facilitate and manage conversations, pr
 ## Setup Instructions
 
 ### Prerequisites
-- Ensure you have [Node.js](https://nodejs.org/) installed.
-- You’ll also need npm (usually comes with Node.js).
+- Ensure you have Docker Desktop correctly setup
 
 ### Installation
 1. **Clone the Repository:**
