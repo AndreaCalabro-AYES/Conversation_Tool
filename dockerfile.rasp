@@ -20,17 +20,20 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install Python dependencies including vosk and pyinstaller
-RUN pip install pyttsx3 
+# Install Vosk using the recommended method from their website
+# This ensures that the correct version of libvosk.so is included
 RUN pip install vosk
+
+# Install other Python dependencies
+RUN pip install 
+RUN pip install pyttsx3
 RUN pip install sounddevice
-RUN pip install pyinstaller
 
 # Copy the application code
 COPY . /app
 
-# Use PyInstaller to create a standalone executable
-RUN pyinstaller --noconsole --onefile --collect-all vosk converse.py
+# Ensure libvosk.so is correctly placed in a standard library path
+RUN cp /usr/local/lib/python3.9/site-packages/vosk/libvosk.so /usr/lib/
 
-# The application will be in the dist directory created by PyInstaller
-CMD ["./dist/converse"]
+# Run the application directly in Python (avoiding PyInstaller for now)
+# CMD ["python", "converse.py"]
