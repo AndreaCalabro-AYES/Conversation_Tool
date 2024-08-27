@@ -10,8 +10,12 @@ services:
       - "/dev/snd:/dev/snd"  # Audio devices
       - "/dev/gpiomem:/dev/gpiomem"  # GPIO memory
     volumes:
-      - ./your_application:/app
+      - ./converse.py:/app/converse.py
+      - ./json_files:/app/json_files
     environment:
       - PULSE_SERVER=host.docker.internal
     command: ["python", "converse.py"]
     privileged: true  # Required to access GPIO and audio hardware
+
+volumes:
+  json_files:
