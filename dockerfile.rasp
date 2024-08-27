@@ -1,7 +1,7 @@
 # Use a base image with Python 3.9
 FROM python:3.9-slim
 
-# Install system dependencies, build tools, and zlib development package
+# Install necessary dependencies
 RUN apt-get update && apt-get install -y \
     python3-gpiozero \
     alsa-utils \
@@ -10,29 +10,22 @@ RUN apt-get update && apt-get install -y \
     libportaudio2 \
     libportaudiocpp0 \
     build-essential \
-    gcc \
-    libffi-dev \
-    libgfortran5 \
-    zlib1g-dev \
     wget \
     && apt-get clean
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Create a virtual environment
-RUN python3 -m venv /app/venv
+# Install Python dependencies
+RUN pip install deepspeech sounddevice numpy gpiozero
 
-# Activate the virtual environment and update environment variables
-ENV VIRTUAL_ENV=/app/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-# Install Python dependencies inside the virtual environment
-RUN pip install --upgrade pip
-RUN pip install pyttsx3 vosk sounddevice
+# Download DeepSpeech model files
+RUN mkdir -p /app/deepspeech-model && \
+    wget -O /app/deepspeech-model/deepspeech-0.9.3-model.pbmm https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models.pbmm && \
+    wget -O /app/deepspeech-model/deepspeech-0.9.3-model.scorer https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models.scorer
 
 # Copy the application code into the working directory
 COPY . /app
 
-# Run the application using the virtual environment's Python
+# Run the application
 CMD ["python", "converse.py"]

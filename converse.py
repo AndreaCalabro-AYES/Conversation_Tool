@@ -1,35 +1,41 @@
-import pyttsx3
+import deepspeech
+import numpy as np
 import sounddevice as sd
-import vosk
 from gpiozero import LED
-import json
 
-# # Initialize the TTS engine
-# engine = pyttsx3.init()
-
-# Example GPIO control
+# Initialize the GPIO control
 led = LED(17)  # GPIO pin number
 
-# Function to speak text
-# def speak(text):
-#     led.on()  # Turn on the LED when speaking
-#     engine.say(text)
-#     engine.runAndWait()
-#     led.off()  # Turn off the LED after speaking
+# DeepSpeech setup
+model_file_path = '/app/deepspeech-model/deepspeech-0.9.3-model.pbmm'  # Path to the model file
+scorer_file_path = '/app/deepspeech-model/deepspeech-0.9.3-model.scorer'  # Path to the scorer file
 
-# Vosk setup
-model = vosk.Model("/app/vosk-model")  # Ensure the model is copied to /app
-recognizer = vosk.KaldiRecognizer(model, 16000)
+model = deepspeech.Model(model_file_path)
+model.enableExternalScorer(scorer_file_path)
 
+# Function to listen and transcribe speech
 def listen():
+    led.on()  # Turn on the LED to indicate listening has started
     with sd.RawInputStream(samplerate=16000, blocksize=8000, dtype='int16', channels=1) as stream:
         print("Listening...", flush=True)
+        audio_data = []
         while True:
+            # Read from the audio stream
             data = stream.read(4000)
-            if recognizer.AcceptWaveform(data[0]):
-                result = json.loads(recognizer.Result())
-                print("You said:", result['text'], flush=True)
+            audio_data.extend(data[0])
+            
+            # Check if enough data is collected to make a prediction
+            if len(audio_data) >= 16000:
+                # Convert the audio data to numpy array and then to bytes
+                np_audio = np.array(audio_data, dtype=np.int16)
+                text = model.stt(np_audio)
+                
+                if text:
+                    print("You said:", text, flush=True)
+                
+                # Clear the audio data buffer after processing
+                audio_data = []
+    led.off()  # Turn off the LED when finished listening (if the loop ever breaks)
 
-# Test functions
-# speak("Hello, this is a test from Docker container.")
+# Run the listening function
 listen()
