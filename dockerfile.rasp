@@ -1,0 +1,29 @@
+# Use a base image with Python 3.9
+FROM python:3.9-slim
+
+# Install system dependencies
+# alsa-utils and libasound2-dev for audio I/O
+# sounddevice interacts with ALSA
+# gpiozero for GPIO pins interaction
+RUN apt-get update && apt-get install -y \
+    python3-gpiozero \
+    alsa-utils \
+    libasound2-dev \
+    espeak-ng \
+    libportaudio2 \
+    libportaudiocpp0 \
+    && apt-get clean
+
+# Install Python dependencies
+RUN pip install pyttsx3 
+RUN pip install vosk
+RUN pip install sounddevice
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the application code
+COPY . /app
+
+# Run the application
+CMD ["python", "converse.py"]

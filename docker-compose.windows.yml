@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  combined_analysis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./input:/app/input
+      - ./output:/app/output
+      - ./sentiment_analysis.py:/app/sentiment_analysis.py
+      - ./test_sentiment_analysis:/app/test_sentiment_analysis
+      - ./json_files:/app/json_files
+    command: ["python", "test_vader.py"]
+
+volumes:
+  input:
+  output:
+  test_sentiment_analysis:
+  json_files:
