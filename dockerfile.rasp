@@ -15,6 +15,8 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     gcc \
     libffi-dev \
+    libgfortran5 \
+    wget \
     && apt-get clean
 
 # Set the working directory inside the container
@@ -27,6 +29,10 @@ RUN pip install sounddevice
 
 # Copy the application code
 COPY . /app
+
+# Ensure libvosk.so is in the correct path
+RUN wget https://github.com/alphacep/vosk-api/raw/master/python/vosk/libvosk.so -O /usr/local/lib/python3.9/site-packages/vosk/libvosk.so
+
 
 # Run the application
 # CMD ["python", "converse.py"]
