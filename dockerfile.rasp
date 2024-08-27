@@ -1,5 +1,5 @@
 # Use a base image with Python 3.9
-FROM python:3.7-bullseye
+FROM python:3.9-slim
 
 # Install necessary dependencies
 RUN apt-get update && apt-get install -y \
@@ -17,12 +17,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Install Python dependencies
-RUN pip install coqui-stt sounddevice numpy gpiozero
-
-# Download Coqui STT model files
-RUN mkdir -p /app/coqui-stt-model && \
-    wget -O /app/coqui-stt-model/model.tflite https://coqui.ai/models/v1.0/en/model.tflite && \
-    wget -O /app/coqui-stt-model/large_vocabulary.scorer https://coqui.ai/models/v1.0/en/large_vocabulary.scorer
+RUN pip install transformers sounddevice numpy gpiozero torch
 
 # Copy the application code into the working directory
 COPY . /app
