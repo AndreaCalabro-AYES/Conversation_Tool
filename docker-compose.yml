@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   raspberry_chatbot:
-    build: .
+    build: 
+      context: .
+      dockerfile: dockerfile.rasp
     container_name: raspberry_chatbot
     devices:
       - "/dev/snd:/dev/snd"  # Audio devices
