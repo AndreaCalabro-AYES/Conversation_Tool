@@ -1,7 +1,7 @@
 # Use a base image with Python 3.9
 FROM python:3.9-slim
 
-# Install system dependencies and build tools
+# Install system dependencies, build tools, and zlib development package
 RUN apt-get update && apt-get install -y \
     python3-gpiozero \
     alsa-utils \
@@ -20,19 +20,19 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install Vosk using the recommended method from their website
-# This ensures that the correct version of libvosk.so is included
-RUN pip install vosk
+# Create a virtual environment
+RUN python3 -m venv /app/venv
 
-# Install other Python dependencies
-RUN pip install pyttsx3
-RUN pip install sounddevice
+# Activate the virtual environment and update environment variables
+ENV VIRTUAL_ENV=/app/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-# Copy the application code
+# Install Python dependencies inside the virtual environment
+RUN pip install --upgrade pip
+RUN pip install pyttsx3 vosk sounddevice
+
+# Copy the application code into the working directory
 COPY . /app
 
-# Ensure libvosk.so is correctly placed in a standard library path
-RUN cp /usr/local/lib/python3.9/site-packages/vosk/libvosk.so /usr/lib/
-
-# Run the application directly in Python (avoiding PyInstaller for now)
-# CMD ["python", "converse.py"]
+# Run the application using the virtual environment's Python
+CMD ["python", "converse.py"]
