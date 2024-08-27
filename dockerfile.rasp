@@ -29,4 +29,4 @@ RUN pip install sounddevice
 COPY . /app
 
 # Run the application
-CMD ["python", "converse.py"]
+# CMD ["python", "converse.py"]
