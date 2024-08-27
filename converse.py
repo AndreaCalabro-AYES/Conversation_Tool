@@ -4,8 +4,8 @@ import vosk
 from gpiozero import LED
 import json
 
-# Initialize the TTS engine
-engine = pyttsx3.init()
+# # Initialize the TTS engine
+# engine = pyttsx3.init()
 
 # Example GPIO control
 led = LED(17)  # GPIO pin number

@@ -1,10 +1,7 @@
 # Use a base image with Python 3.9
 FROM python:3.9-slim
 
-# Install system dependencies
-# alsa-utils and libasound2-dev for audio I/O
-# sounddevice interacts with ALSA
-# gpiozero for GPIO pins interaction
+# Install system dependencies and build tools
 RUN apt-get update && apt-get install -y \
     python3-gpiozero \
     alsa-utils \
@@ -16,19 +13,22 @@ RUN apt-get update && apt-get install -y \
     gcc \
     libffi-dev \
     libgfortran5 \
-    wget \
     && apt-get clean
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install Python dependencies
+# Install Python dependencies including vosk
 RUN pip install pyttsx3 
 RUN pip install vosk
 RUN pip install sounddevice
+
+# Manually copy the libvosk.so file to the correct location
+# Suggested in https://github.com/alphacep/vosk-api/issues/602
+RUN cp /usr/local/lib/python3.9/site-packages/vosk/libvosk.so /usr/lib/arm-linux-gnueabihf/libvosk.so
 
 # Copy the application code
 COPY . /app
 
 # Run the application
-# CMD ["python", "converse.py"]
+CMD ["python", "converse.py"]
