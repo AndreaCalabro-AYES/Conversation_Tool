@@ -1,5 +1,5 @@
 # Use a base image with Python 3.9
-FROM python:3.9-slim as builder
+FROM python:3.11.9-bullseye as builder
 
 # Install necessary dependencies
 RUN apt-get update && apt-get install -y \
@@ -26,7 +26,7 @@ RUN pip install --no-cache-dir transformers sounddevice numpy gpiozero torch git
 COPY . /app
 
 # Use a non-build stage image with Python 3.9
-FROM python:3.9-slim
+FROM python:3.11.9-bullseye
 
 # Set the working directory inside the container
 WORKDIR /app
