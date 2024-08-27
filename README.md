@@ -24,3 +24,16 @@ To add the connection to the microphone and speakers would require too much over
    git clone https://github.com/AndreaCalabro-AYES/Conversation_Tool.git
     ```
 
+Successfully built cb849c09f7b5
+Successfully tagged conversation_tool_raspberry_chatbot:latest
+Recreating raspberry_chatbot ... done
+Attaching to raspberry_chatbot
+raspberry_chatbot    | Traceback (most recent call last):
+raspberry_chatbot    |   File "/app/converse.py", line 3, in <module>
+raspberry_chatbot    |     import vosk
+raspberry_chatbot    |   File "/usr/local/lib/python3.9/site-packages/vosk/__init__.py", line 36, in <module>
+raspberry_chatbot    |     _c = open_dll()
+raspberry_chatbot    |   File "/usr/local/lib/python3.9/site-packages/vosk/__init__.py", line 30, in open_dll
+raspberry_chatbot    |     return _ffi.dlopen(os.path.join(dlldir, "libvosk.so"))
+raspberry_chatbot    | OSError: cannot load library '/usr/local/lib/python3.9/site-packages/vosk/libvosk.so': /usr/local/lib/python3.9/site-packages/vosk/libvosk.so: cannot open shared object file: No such file or directory
+raspberry_chatbot exited with code 1
