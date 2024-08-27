@@ -28,7 +28,7 @@ def listen():
             data = stream.read(4000)
             if recognizer.AcceptWaveform(data[0]):
                 result = json.loads(recognizer.Result())
-                print("You said:", result['text'])
+                print("You said:", result['text'], flush=True)
 
 # Test functions
 # speak("Hello, this is a test from Docker container.")
