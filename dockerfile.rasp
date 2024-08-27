@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     gcc \
     libffi-dev \
     libgfortran5 \
+    zlib1g-dev \
     wget \
     && apt-get clean
 
