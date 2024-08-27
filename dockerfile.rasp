@@ -30,9 +30,5 @@ RUN pip install sounddevice
 # Copy the application code
 COPY . /app
 
-# Ensure libvosk.so is in the correct path
-RUN wget https://github.com/alphacep/vosk-api/raw/master/python/vosk/libvosk.so -O /usr/local/lib/python3.9/site-packages/vosk/libvosk.so
-
-
 # Run the application
 # CMD ["python", "converse.py"]
