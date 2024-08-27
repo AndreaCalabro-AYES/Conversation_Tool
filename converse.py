@@ -1,4 +1,4 @@
-import deepspeech
+import stt
 import numpy as np
 import sounddevice as sd
 from gpiozero import LED
@@ -6,11 +6,11 @@ from gpiozero import LED
 # Initialize the GPIO control
 led = LED(17)  # GPIO pin number
 
-# DeepSpeech setup
-model_file_path = '/app/deepspeech-model/deepspeech-0.9.3-model.pbmm'  # Path to the model file
-scorer_file_path = '/app/deepspeech-model/deepspeech-0.9.3-model.scorer'  # Path to the scorer file
+# Coqui STT setup
+model_file_path = '/app/coqui-stt-model/model.tflite'  # Path to the model file
+scorer_file_path = '/app/coqui-stt-model/large_vocabulary.scorer'  # Path to the scorer file
 
-model = deepspeech.Model(model_file_path)
+model = stt.Model(model_file_path)
 model.enableExternalScorer(scorer_file_path)
 
 # Function to listen and transcribe speech
@@ -26,7 +26,7 @@ def listen():
             
             # Check if enough data is collected to make a prediction
             if len(audio_data) >= 16000:
-                # Convert the audio data to numpy array and then to bytes
+                # Convert the audio data to numpy array
                 np_audio = np.array(audio_data, dtype=np.int16)
                 text = model.stt(np_audio)
                 

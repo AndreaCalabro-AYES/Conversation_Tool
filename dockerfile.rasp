@@ -17,12 +17,12 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Install Python dependencies
-RUN pip install deepspeech sounddevice numpy gpiozero
+RUN pip install coqui-stt sounddevice numpy gpiozero
 
-# Download DeepSpeech model files
-RUN mkdir -p /app/deepspeech-model && \
-    wget -O /app/deepspeech-model/deepspeech-0.9.3-model.pbmm https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models.pbmm && \
-    wget -O /app/deepspeech-model/deepspeech-0.9.3-model.scorer https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models.scorer
+# Download Coqui STT model files
+RUN mkdir -p /app/coqui-stt-model && \
+    wget -O /app/coqui-stt-model/model.tflite https://coqui.ai/models/v1.0/en/model.tflite && \
+    wget -O /app/coqui-stt-model/large_vocabulary.scorer https://coqui.ai/models/v1.0/en/large_vocabulary.scorer
 
 # Copy the application code into the working directory
 COPY . /app
