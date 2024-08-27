@@ -13,22 +13,23 @@ RUN apt-get update && apt-get install -y \
     gcc \
     libffi-dev \
     libgfortran5 \
+    wget \
     && apt-get clean
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install Python dependencies including vosk
+# Install Python dependencies including vosk and pyinstaller
 RUN pip install pyttsx3 
 RUN pip install vosk
 RUN pip install sounddevice
-
-# Manually copy the libvosk.so file to the correct location
-# Suggested in https://github.com/alphacep/vosk-api/issues/602
-RUN cp /usr/local/lib/python3.9/site-packages/vosk/libvosk.so /usr/lib/arm-linux-gnueabihf/libvosk.so
+RUN pip install pyinstaller
 
 # Copy the application code
 COPY . /app
 
-# Run the application
-CMD ["python", "converse.py"]
+# Use PyInstaller to create a standalone executable
+RUN pyinstaller --noconsole --onefile --collect-all vosk converse.py
+
+# The application will be in the dist directory created by PyInstaller
+CMD ["./dist/converse"]
