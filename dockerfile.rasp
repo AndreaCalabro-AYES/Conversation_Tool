@@ -25,7 +25,6 @@ WORKDIR /app
 RUN pip install vosk
 
 # Install other Python dependencies
-RUN pip install 
 RUN pip install pyttsx3
 RUN pip install sounddevice
 
