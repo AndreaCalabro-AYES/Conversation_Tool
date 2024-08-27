@@ -1,5 +1,5 @@
 # Use a base image with Python 3.9
-FROM python:3.9-slim
+FROM python:3.9-slim as builder
 
 # Install necessary dependencies
 RUN apt-get update && apt-get install -y \
@@ -11,16 +11,30 @@ RUN apt-get update && apt-get install -y \
     libportaudiocpp0 \
     build-essential \
     wget \
+    git \
+    ninja-build \
     && apt-get clean
 
 # Set the working directory inside the container
 WORKDIR /app
 
 # Install Python dependencies
-RUN pip install transformers sounddevice numpy gpiozero torch
+RUN pip install --no-cache-dir transformers sounddevice numpy gpiozero torch git
 
 # Copy the application code into the working directory
 COPY . /app
+
+# Use a non-build stage image with Python 3.9
+FROM python:3.9-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the application code from the builder stage
+COPY --from=builder /app /app
+
+# Install Python dependencies
+RUN pip install --no-cache-dir transformers sounddevice numpy gpiozero torch
 
 # Run the application
 CMD ["python", "converse.py"]
