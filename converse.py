@@ -23,7 +23,7 @@ recognizer = vosk.KaldiRecognizer(model, 16000)
 
 def listen():
     with sd.RawInputStream(samplerate=16000, blocksize=8000, dtype='int16', channels=1) as stream:
-        print("Listening...")
+        print("Listening...", flush=True)
         while True:
             data = stream.read(4000)
             if recognizer.AcceptWaveform(data[0]):
