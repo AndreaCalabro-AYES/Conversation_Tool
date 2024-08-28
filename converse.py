@@ -1,4 +1,6 @@
 import sounddevice as sd
+import ctypes
+import os
 
 # Print the LD_LIBRARY_PATH to verify it's correctly set
 print("LD_LIBRARY_PATH:", os.environ.get('LD_LIBRARY_PATH'), flush=True)
@@ -10,8 +12,7 @@ import vosk
 import numpy as np
 from gpiozero import LED
 import json
-import ctypes
-import os
+
 
 # Initialize the GPIO control
 led = LED(17)  # GPIO pin number
