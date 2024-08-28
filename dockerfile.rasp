@@ -1,5 +1,5 @@
 # Use a base image with Python 3.9
-FROM python:3.9-slim as builder
+FROM python:3.9-slim
 
 # Install necessary dependencies including build tools for cffi
 RUN apt-get update && apt-get install -y \
@@ -19,22 +19,16 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Install Python dependencies including NLTK
-RUN pip3 install --no-cache-dir vosk==0.3.42 sounddevice==0.4.1 gpiozero==1.6.2 nltk==3.6.3
-
-# Copy the application code into the working directory
-COPY . /app
-
-# Use a non-build stage image with Python 3.9
-FROM python:3.9-slim
-
-# Set the working directory inside the container
-WORKDIR /app
-
-# Copy the application code from the builder stage
-COPY --from=builder /app /app
+RUN pip3 install --no-cache-dir vosk==0.3.42
+RUN pip3 install --no-cache-dir sounddevice==0.4.1
+RUN pip3 install --no-cache-dir gpiozero==1.6.2
+RUN pip3 install --no-cache-dir nltk==3.6.3
 
 # Download NLTK VADER lexicon
 RUN python3 -m nltk.downloader vader_lexicon
+
+# Copy the application code into the working directory
+COPY . /app
 
 # Run the application
 CMD ["python3", "converse.py"]
