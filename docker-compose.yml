@@ -1,15 +1,15 @@
 version: '3'
-
 services:
-  mic_led:
-    build:
+  chatbot:
+    build: 
       context: .
       dockerfile: dockerfile.rasp
-    container_name: mic_led_container
-    privileged: true  # Necessary to access GPIO pins
-    command: ["python3", "mic_led.py"]
+    privileged: true  # Necessary for GPIO access
     devices:
-      - /dev/mem:/dev/mem
+      - /dev/snd:/dev/snd  # Map sound devices
     volumes:
-      - ./mic_led.py:/app/mic_led/mic.py  # Mount mic.py from the host system
-    restart: unless-stopped
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev/mem:/dev/mem
+      - ./mic_led.py:/app/mic_led.py
+    environment:
+      - PYTHONUNBUFFERED=1

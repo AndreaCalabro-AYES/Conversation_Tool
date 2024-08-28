@@ -1,20 +1,25 @@
-# Use an official Python runtime as a parent image
+# Base image with Python 3
 FROM python:3.9-slim
 
-# Set the working directory in the container
-WORKDIR /app
-
-# Install necessary system packages
+# Install required libraries
 RUN apt-get update && apt-get install -y \
-    python3-gpiozero \
-    python3-spidev \
+    python3-pyaudio \
+    portaudio19-dev \
+    libffi-dev \
+    libasound2-dev \
+    libportaudio2 \
+    libportaudiocpp0 \
+    libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Install Python dependencies
+RUN pip install gpiozero numpy pyaudio
 
-# Run the command to install the dependencies
-RUN pip install gpiozero
+# Set working directory
+WORKDIR /usr/src/app
 
-# Run the script when the container launches
-# CMD ["python3", "mic_led.py"]
+# Copy the current directory contents into the container at /usr/src/app
+COPY . .
+
+# Run the application
+CMD ["python", "mic_led.py"]
