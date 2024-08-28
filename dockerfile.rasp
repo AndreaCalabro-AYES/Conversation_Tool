@@ -19,8 +19,7 @@ RUN apt-get update && apt-get install -y \
     git \
     && apt-get clean
 
-# Set the working directory inside the container
-WORKDIR /app
+
 
 # Install Python dependencies with specific versions
 RUN pip3 install --no-cache-dir vosk==0.3.42 \
@@ -28,14 +27,24 @@ RUN pip3 install --no-cache-dir vosk==0.3.42 \
     gpiozero==1.6.2 \
     nltk==3.6.3
 
+# Debug: List the contents of the site-packages directory to find libvosk.so
+RUN find /usr/local/lib/python3.9/site-packages/ -name "libvosk.so"
+
+# Set the working directory inside the container
+WORKDIR /app
+
 # Download NLTK VADER lexicon
 RUN python3 -m nltk.downloader vader_lexicon
+
+# Set the LD_LIBRARY_PATH to include the directory where libvosk.so is located
+ENV LD_LIBRARY_PATH=/usr/local/lib/python3.9/site-packages/vosk
 
 # Copy the application code into the working directory
 COPY . /app
 
-# Ensure correct permissions for libvosk.so
-RUN chmod 755 /usr/local/lib/python3.9/site-packages/vosk/libvosk.so
+# Attempt to set permissions if libvosk.so is found
+RUN chmod 755 /usr/local/lib/python3.9/site-packages/vosk/libvosk.so || echo "libvosk.so not found, skipping chmod"
+
 
 # Run ldconfig to update the linker cache
 RUN ldconfig
