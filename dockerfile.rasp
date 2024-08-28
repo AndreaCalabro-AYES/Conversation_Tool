@@ -17,4 +17,4 @@ COPY . /app
 RUN pip install gpiozero
 
 # Run the script when the container launches
-CMD ["python3", "mic_led.py"]
+# CMD ["python3", "mic_led.py"]
