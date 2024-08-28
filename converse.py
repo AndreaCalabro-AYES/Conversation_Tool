@@ -1,32 +1,28 @@
 import sounddevice as sd
 import ctypes
 import os
-
-import os
-# os.environ['LD_LIBRARY_PATH'] = '/usr/local/lib/python3.9/site-packages/vosk:'
-
-# Ensure the library is found in the path
-assert os.path.exists('/usr/local/lib/python3.9/site-packages/vosk/libvosk.so'), "libvosk.so not found in expected path!"
-
-# Attempt to load the library
-try:
-    ctypes.cdll.LoadLibrary('/usr/local/lib/python3.9/site-packages/vosk/libvosk.so')
-    print("libvosk.so loaded successfully!")
-except OSError as e:
-    print(f"Failed to load libvosk.so: {e}", flush=True)
-    raise
-
-
 import vosk
 import numpy as np
 from gpiozero import LED
 import json
 
+# Set the LD_LIBRARY_PATH if necessary (may not be needed if correctly set in the environment)
+# os.environ['LD_LIBRARY_PATH'] = '/usr/local/lib/python3.9/dist-packages/vosk:'
+
+# Ensure the library is found in the path
+libvosk_path = '/usr/local/lib/python3.9/dist-packages/vosk/libvosk.so'
+assert os.path.exists(libvosk_path), "libvosk.so not found in expected path!"
+
+# Attempt to load the library
+try:
+    ctypes.cdll.LoadLibrary(libvosk_path)
+    print("libvosk.so loaded successfully!")
+except OSError as e:
+    print(f"Failed to load libvosk.so: {e}", flush=True)
+    raise
 
 # Initialize the GPIO control
 led = LED(17)  # GPIO pin number
-
-
 
 # Load the Vosk model
 model = vosk.Model("/app/vosk-model")  # Ensure the model is correctly located in /app/vosk-model
@@ -40,7 +36,7 @@ def listen():
         while True:
             # Read from the audio stream
             data = stream.read(4000)
-            
+
             # Check if enough data is collected to make a prediction
             if recognizer.AcceptWaveform(data):
                 result = json.loads(recognizer.Result())
