@@ -1,11 +1,11 @@
 from gpiozero import SmoothedInputDevice, LED
 import time
 
-# Initialize the microphone connected to GPIO pin 17
-mic = SmoothedInputDevice(pin=17, threshold=0.5, queue_len=5, sample_wait=0.1)
+# Initialize the microphone connected to GPIO pin 18
+mic = SmoothedInputDevice(pin=18, threshold=0.5, queue_len=5, sample_wait=0.1)
 
-# Initialize the LED connected to GPIO pin 18
-led = LED(18)
+# Initialize the LED connected to GPIO pin 17
+led = LED(17)
 
 try:
     while True:
