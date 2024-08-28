@@ -1,7 +1,7 @@
 # Use a base image with Python 3.9
 FROM python:3.9-slim as builder
 
-# Install necessary dependencies
+# Install necessary dependencies including build tools for cffi
 RUN apt-get update && apt-get install -y \
     python3-gpiozero \
     alsa-utils \
@@ -9,17 +9,17 @@ RUN apt-get update && apt-get install -y \
     libportaudio2 \
     libportaudiocpp0 \
     build-essential \
+    libffi-dev \
+    gcc \
+    python3-dev \
     wget \
     && apt-get clean
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install Python dependencies
+# Install Python dependencies including NLTK
 RUN pip3 install --no-cache-dir vosk==0.3.42 sounddevice==0.4.1 gpiozero==1.6.2 nltk==3.6.3
-
-# Download NLTK VADER lexicon
-RUN python3 -m nltk.downloader vader_lexicon
 
 # Copy the application code into the working directory
 COPY . /app
@@ -32,9 +32,6 @@ WORKDIR /app
 
 # Copy the application code from the builder stage
 COPY --from=builder /app /app
-
-# Install Python dependencies again in the final image
-RUN pip3 install --no-cache-dir vosk==0.3.42 sounddevice==0.4.1 gpiozero==1.6.2 nltk==3.6.3
 
 # Download NLTK VADER lexicon
 RUN python3 -m nltk.downloader vader_lexicon
