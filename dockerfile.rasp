@@ -46,5 +46,5 @@ RUN ldconfig
 # Copy the application code into the working directory
 COPY . /app
 
-# Run the application
-CMD ["python3", "converse.py"]
+# # Run the application
+# CMD ["python3", "converse.py"]
