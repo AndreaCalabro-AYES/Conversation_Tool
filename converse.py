@@ -2,6 +2,9 @@ import sounddevice as sd
 import ctypes
 import os
 
+import os
+os.environ['LD_LIBRARY_PATH'] = '/usr/local/lib/python3.9/site-packages/vosk:' + os.environ.get('LD_LIBRARY_PATH', '')
+
 # Print the LD_LIBRARY_PATH to verify it's correctly set
 print("LD_LIBRARY_PATH:", os.environ.get('LD_LIBRARY_PATH'), flush=True)
 
