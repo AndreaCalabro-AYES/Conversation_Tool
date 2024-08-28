@@ -1,32 +1,31 @@
-# Use a base image with Python 3.10
-FROM python:3.10-slim-bullseye as builder
+# Use a base image with Python 3.9
+FROM python:3.9-slim as builder
 
 # Install necessary dependencies
 RUN apt-get update && apt-get install -y \
     python3-gpiozero \
     alsa-utils \
     libasound2-dev \
-    espeak-ng \
     libportaudio2 \
     libportaudiocpp0 \
     build-essential \
     wget \
-    git \
-    ninja-build \
-    patchelf \
     && apt-get clean
 
 # Set the working directory inside the container
 WORKDIR /app
 
 # Install Python dependencies
-RUN pip install --no-cache-dir transformers sounddevice numpy gpiozero torch git
+RUN pip3 install --no-cache-dir vosk==0.3.42 sounddevice==0.4.1 gpiozero==1.6.2 nltk==3.6.3
+
+# Download NLTK VADER lexicon
+RUN python3 -m nltk.downloader vader_lexicon
 
 # Copy the application code into the working directory
 COPY . /app
 
 # Use a non-build stage image with Python 3.9
-FROM python:3.10-slim-bullseye
+FROM python:3.9-slim
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -34,8 +33,11 @@ WORKDIR /app
 # Copy the application code from the builder stage
 COPY --from=builder /app /app
 
-# Install Python dependencies
-RUN pip install --no-cache-dir transformers sounddevice numpy gpiozero torch
+# Install Python dependencies again in the final image
+RUN pip3 install --no-cache-dir vosk==0.3.42 sounddevice==0.4.1 gpiozero==1.6.2 nltk==3.6.3
+
+# Download NLTK VADER lexicon
+RUN python3 -m nltk.downloader vader_lexicon
 
 # Run the application
-CMD ["python", "converse.py"]
+CMD ["python3", "converse.py"]
