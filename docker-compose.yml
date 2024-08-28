@@ -8,13 +8,13 @@ services:
     container_name: raspberry_chatbot
     devices:
       - "/dev/snd:/dev/snd"  # Audio devices
-      - "/dev/gpiomem:/dev/gpiomem"  # GPIO memory
+      # - "/dev/gpiomem:/dev/gpiomem"  # GPIO memory
     volumes:
       - ./converse.py:/app/converse.py
-      - ./json_files:/app/json_files
+      # - ./json_files:/app/json_files
     environment:
       - PULSE_SERVER=host.docker.internal
-      - LD_LIBRARY_PATH=/usr/local/lib/python3.9/dist-packages/vosk
+      # - LD_LIBRARY_PATH=/usr/local/lib/python3.9/dist-packages/vosk
     command: ["python3", "converse.py"]
     privileged: true  # Required to access GPIO and audio hardware
 
