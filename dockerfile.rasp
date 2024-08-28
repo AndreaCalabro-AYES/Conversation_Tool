@@ -34,11 +34,11 @@ RUN python3 -m nltk.downloader vader_lexicon
 # Set the LD_LIBRARY_PATH to include the directory where libvosk.so is located
 ENV LD_LIBRARY_PATH=/usr/local/lib/python3.9/dist-packages/vosk:$LD_LIBRARY_PATH
 
-# Copy libvosk.so to the target directory to ensure it's correctly located
-RUN cp /usr/local/lib/python3.9/dist-packages/vosk/libvosk.so /usr/local/lib/python3.9/site-packages/vosk/libvosk.so
+# # Copy libvosk.so to the target directory to ensure it's correctly located
+# RUN cp /usr/local/lib/python3.9/dist-packages/vosk/libvosk.so /usr/local/lib/python3.9/site-packages/vosk/libvosk.so
 
 # Ensure correct permissions for libvosk.so
-RUN chmod 755 /usr/local/lib/python3.9/site-packages/vosk/libvosk.so
+RUN chmod 755 /usr/local/lib/python3.9/dist-packages/vosk/libvosk.so
 
 # Run ldconfig to update the linker cache
 RUN ldconfig

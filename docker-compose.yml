@@ -14,7 +14,7 @@ services:
       - ./json_files:/app/json_files
     environment:
       - PULSE_SERVER=host.docker.internal
-      - LD_LIBRARY_PATH=/usr/local/lib/python3.9/site-packages/vosk
+      - LD_LIBRARY_PATH=/usr/local/lib/python3.9/dist-packages/vosk
     command: ["python", "converse.py"]
     privileged: true  # Required to access GPIO and audio hardware
 
