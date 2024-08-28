@@ -11,13 +11,14 @@ try:
     print("Starting microphone detection...", flush=True)
     print(f"Microphone initialized on GPIO pin 18 with threshold={mic.threshold}, queue_len={mic.queue_len}", flush=True)
     print(f"LED initialized on GPIO pin 17", flush=True)
+    led.on()  # Turn on the LED to see we are live
+    
     
     while True:
         mic_value = mic.value  # Get the current smoothed value
         print(f"Mic value: {mic_value:.2f}", flush=True)  # Debugging mic value
         
         if mic.is_active:
-            led.on()  # Turn on the LED when sound is detected
             print("Sound detected! LED is ON.", flush=True)
         else:
             led.off()  # Turn off the LED when no sound is detected
