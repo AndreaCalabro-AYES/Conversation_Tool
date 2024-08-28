@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     libasound2-dev \
     build-essential \
+    cffi \
     && apt-get clean
 
 RUN pip3 install --no-cache-dir vosk==0.3.42
