@@ -9,8 +9,8 @@ led = LED(17)
 
 try:
     print("Starting microphone detection...", flush=True)
-    print(f"Microphone initialized on GPIO pin 17 with threshold={mic.threshold}, queue_len={mic.queue_len}, sample_wait={mic.sample_wait}", flush=True)
-    print(f"LED initialized on GPIO pin 18", flush=True)
+    print(f"Microphone initialized on GPIO pin 18 with threshold={mic.threshold}, queue_len={mic.queue_len}", flush=True)
+    print(f"LED initialized on GPIO pin 17", flush=True)
     
     while True:
         mic_value = mic.value  # Get the current smoothed value
