@@ -27,8 +27,8 @@ RUN pip3 install --no-cache-dir vosk==0.3.42 \
     gpiozero==1.6.2 \
     nltk==3.6.3
 
-# Debug: List the contents of the site-packages directory to find libvosk.so
-RUN find /usr/local/lib/python3.9/site-packages/ -name "libvosk.so"
+# Print out the location of site-packages to find where vosk is installed
+RUN python3 -c "import site; print(site.getsitepackages())"
 
 # Set the working directory inside the container
 WORKDIR /app
