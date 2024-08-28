@@ -5,11 +5,17 @@ import os
 import os
 # os.environ['LD_LIBRARY_PATH'] = '/usr/local/lib/python3.9/site-packages/vosk:'
 
-# Print the LD_LIBRARY_PATH to verify it's correctly set
-print("LD_LIBRARY_PATH:", os.environ.get('LD_LIBRARY_PATH'), flush=True)
+# Ensure the library is found in the path
+assert os.path.exists('/usr/local/lib/python3.9/site-packages/vosk/libvosk.so'), "libvosk.so not found in expected path!"
 
-# Explicitly load the libvosk.so shared library
-ctypes.cdll.LoadLibrary('/usr/local/lib/python3.9/site-packages/vosk/libvosk.so')
+# Attempt to load the library
+try:
+    ctypes.cdll.LoadLibrary('/usr/local/lib/python3.9/site-packages/vosk/libvosk.so')
+    print("libvosk.so loaded successfully!")
+except OSError as e:
+    print(f"Failed to load libvosk.so: {e}", flush=True)
+    raise
+
 
 import vosk
 import numpy as np
