@@ -27,6 +27,9 @@ RUN pip3 install --no-cache-dir nltk==3.6.3
 # Download NLTK VADER lexicon
 RUN python3 -m nltk.downloader vader_lexicon
 
+# Set the LD_LIBRARY_PATH to include the directory where libvosk.so is located
+ENV LD_LIBRARY_PATH=/usr/local/lib/python3.9/site-packages/vosk:$LD_LIBRARY_PATH
+
 # Copy the application code into the working directory
 COPY . /app
 
