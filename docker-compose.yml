@@ -11,5 +11,5 @@ services:
     devices:
       - /dev/mem:/dev/mem
     volumes:
-      - ./mic_led.py:/mic_led/mic.py  # Mount mic.py from the host system
+      - ./mic_led.py:/app/mic_led/mic.py  # Mount mic.py from the host system
     restart: unless-stopped
