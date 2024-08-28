@@ -2,7 +2,9 @@ version: '3'
 
 services:
   mic_led:
-    build: .
+    build:
+      context: .
+      dockerfile: dockerfile.rasp
     container_name: mic_led_container
     privileged: true  # Necessary to access GPIO pins
     devices:
